@@ -1,18 +1,16 @@
 # AWS-CLI
 # Installation:
 
-pip: 9.0.2 or greater
-setuptools: 36.2.0 or greater
-The safest way to install the AWS CLI is to use pip in a `virtualenv`:
+Install the AWS CLI is to use pip in a `virtualenv`:
 ```
 $ python -m pip install awscli
 ```
-if you are not installing in a virtualenv, to install globally:
+If you are not installing in a virtualenv, to install globally:
 
 ```
 $ sudo python -m pip install awscli
 ```
-for your user:
+For user:
 
 ```
 $ python -m pip install --user awscli
