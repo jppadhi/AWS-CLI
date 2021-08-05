@@ -441,8 +441,8 @@ $ aws rds describe-db-instances | jq -r ‘.DBInstances[ ] | .DBInstanceIdentifi
 ```
 * Take DB Instance Snapshot
 ```
-aws rds create-db-snapshot --db-snapshot-identifier snapshot-1 --db-instance-identifier dev-1
-aws rds describe-db-snapshots --db-snapshot-identifier snapshot-1 --db-instance-identifier general
+$ aws rds create-db-snapshot --db-snapshot-identifier snapshot-1 --db-instance-identifier dev-1
+$ aws rds describe-db-snapshots --db-snapshot-identifier snapshot-1 --db-instance-identifier general
 ``` 
 
 * Take DB cluster snapshot
@@ -456,25 +456,23 @@ aws rds create-db-cluster-snapshot --db-cluster-snapshot-identifier
 aws route53 create-hosted-zone --name exampledomain.com
 ```
 
-*Delete hosted zone
+* Delete hosted zone
+```
+$ aws route53 delete-hosted-zone --id example
+```
 
-aws route53 delete-hosted-zone --id example
- 
+* Get hosted zone
+```
+$ aws route53 get-hosted-zone --id example
+```
+* List hosted zones
+```
+$ aws route53 list-hosted-zones
+```
 
-Get hosted zone
-
-aws route53 get-hosted-zone --id example
- 
-
-List hosted zones
-
-aws route53 list-hosted-zones
- 
-
-Create a record set
-
-To do this you’ll first need to create a JSON file with a list of change items in the body and use the CREATE action. For example the JSON file would look like this.
-
+* Create a record set
+create a JSON file with a list of change items in the body and use the CREATE action. For example the JSON file would look like this.
+```
 {
      "Comment": "CREATE/DELETE/UPSERT a record",
      "Changes": [{
@@ -486,15 +484,16 @@ To do this you’ll first need to create a JSON file with a list of change items
           "ResourceRecords":[{"Value":"4.4.4.4"}]
 }}]
 }
+```
 Once you have a JSON file with the correct information like above you will be able to enter the command
-
+```
 aws route53 change-resource-record-sets --hosted-zone-id (zone-id) --change-batch file://exampleabove.json
- 
+```
 
-Update a record set
+* Update a record set
 
-To do this you’ll first need to create a JSON file with a list of change items in the body and use the UPSERT action. This will either create a new record set with the specified value, or updates a record set if it already exists. For example the JSON file would look like this.
-
+create a JSON file with a list of change items in the body and use the UPSERT action. This will either create a new record set with the specified value, or updates a record set if it already exists. For example the JSON file would look like this.
+```
 {
      "Comment": "CREATE/DELETE/UPSERT a record",
      "Changes": [{
@@ -506,15 +505,16 @@ To do this you’ll first need to create a JSON file with a list of change items
           "ResourceRecords": [{"Value":"4.4.4.4"}]
 }}]
 }
+````
 Once you have a JSON file with the correct information like above you will be able to enter the command
+```
+$ aws route53 change-resource-record-sets --hosted-zone-id (zone-id) --change-batch file://exampleabove.json
+```
 
-aws route53 change-resource-record-sets --hosted-zone-id (zone-id) --change-batch file://exampleabove.json
- 
+* Delete a record set
 
-Delete a record set
-
-To do this you’ll first need to create a JSON file with a list of the record set values you want to delete in the body and use the DELETE action. For example the JSON file would look like this.
-
+create a JSON file with a list of the record set values you want to delete in the body and use the DELETE action. For example the JSON file would look like this.
+```
 {
      "Comment": "CREATE/DELETE/UPSERT a record",
      "Changes": [{
@@ -526,120 +526,101 @@ To do this you’ll first need to create a JSON file with a list of the record s
           "ResourceRecords": [{"Value":"4.4.4.4"}]
 }}]
 }
+```
 Once you have a JSON file with the correct information like above you will be able to enter the following command.
-
-aws route53 change-resource-record-sets --hosted-zone-id (zone-id) --change-batch file://exampleabove.json
- 
- 
-S3
-List Buckets
-
-aws s3 ls
- 
-
-List files in a Bucket
-
-aws s3 ls s3://mybucket
- 
-
-Create Bucket
-
-
-aws s3 mb s3://bucket-name
+```
+$ aws route53 change-resource-record-sets --hosted-zone-id (zone-id) --change-batch file://exampleabove.json
+```
+# S3:
+* List Buckets
+```
+$ aws s3 ls
+```
+* List files in a Bucket
+```
+$ aws s3 ls s3://mybucket
+```
+* Create Bucket
+```
+$ aws s3 mb s3://bucket-name
 make_bucket: bucket-name
- 
-
-Delete Bucket
-
-aws s3 rb s3://bucket-name --force
- 
-
-Download S3 object to local
-
-aws s3 cp s3://bucket-name
+```
+* Delete Bucket
+```
+$ aws s3 rb s3://bucket-name --force
+```
+* Download S3 object to local
+```
+$ aws s3 cp s3://bucket-name
 download: ./backup.tar from s3://bucket-name/backup.tar
- 
+```
 
-Upload local file as S3 object
-
-aws s3 cp backup.tar s3://bucket-name
+* Upload local file as S3 object
+```
+$ aws s3 cp backup.tar s3://bucket-name
 upload: ./backup.tar to s3://bucket-name/backup.tar
- 
-
-Delete S3 object
-
-aws s3 rm s3://bucket-name/secret-file.gz .
+```
+* Delete S3 object
+```
+& aws s3 rm s3://bucket-name/secret-file.gz .
 delete: s3://bucket-name/secret-file.gz
- 
-
-Download bucket to local
-
-aws s3 sync s3://bucket-name/ /media/pasport-ultra/backup
- 
-
-Upload local directory to bucket
-
-
-aws s3 sync (directory) s3://bucket-name/
- 
-
-Share S3 object without public access
-
-
+```
+* Download bucket to local
+```
+$ aws s3 sync s3://bucket-name/ /media/pasport-ultra/backup
+```
+* Upload local directory to bucket
+```
+$ aws s3 sync (directory) s3://bucket-name/
+``` 
+* Share S3 object without public access
+```
 aws s3 presign s3://bucket-name/file-name --expires-in (time value)
 https://bucket-name.s3.amazonaws.com/file-name.pdf?AWSAccessKeyId=(key)&Expires=(value)&Signature=(value)
- 
- 
-SNS
-List SNS topics
+```
+# SNS:
+* List SNS topics
+```
+$ aws sns list-topics | jq -r ‘.Topics[ ] | .TopicArn’
+```
 
+* List SNS topic and related subscriptions
+```
 
-aws sns list-topics | jq -r ‘.Topics[ ] | .TopicArn’
- 
+$ aws sns list-subscriptions | jq -r ‘.Subscriptions[ ] | .TopicArn+” “+.Protocol+” “+.Endpoint’
+```
 
-List SNS topic and related subscriptions
+* Publish to SNS topic
+```
+$ aws sns publish --topic-arn arn:aws:sns:ap-southeast-1:232398:backend-api-monitoring
+``` 
+# SQS:
 
-
-aws sns list-subscriptions | jq -r ‘.Subscriptions[ ] | .TopicArn+” “+.Protocol+” “+.Endpoint’
- 
-
-Publish to SNS topic
-
-
-aws sns publish --topic-arn arn:aws:sns:ap-southeast-1:232398:backend-api-monitoring
- 
- 
-SQS
-List queues
-
-aws sqs list-queues | jq -r ‘.QueueUrls[ ]’
- 
-
-Create queue
-
-aws sqs create-queue --queue-name public-events.fifo | jq -r .queueURL
- 
-
-Send message
-
-aws sqs send-message --queue-url (url) --message-body (message)
- 
-
-Receive message
-
-aws sqs receive-message --queue-url (url) | jq -r ‘.Messages[ ] | .Body’
- 
-
-Delete message
-
-aws sqs delete-message --queue url (url) --receipt-handle (receipt handle)
- 
-
-Purge queue
-
-aws sqs purge-queue --queue-url (url)
- 
-
-Delete queue
-
-aws sqs delete-queue --queue-url (url)
+* List queues
+```
+$ aws sqs list-queues | jq -r ‘.QueueUrls[ ]’
+```
+* Create queue
+```
+$ aws sqs create-queue --queue-name public-events.fifo | jq -r .queueURL
+``` 
+* Send message
+```
+$ aws sqs send-message --queue-url (url) --message-body (message)
+ ```
+* Receive message
+```
+$ aws sqs receive-message --queue-url (url) | jq -r ‘.Messages[ ] | .Body’
+```
+* Delete message
+```
+$ aws sqs delete-message --queue url (url) --receipt-handle (receipt handle)
+```
+* Purge queue
+```
+$aws sqs purge-queue --queue-url (url)
+```
+* Delete queue
+```
+$ aws sqs delete-queue --queue-url (url)
+```
