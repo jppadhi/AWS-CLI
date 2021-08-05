@@ -5,7 +5,7 @@ Install the AWS CLI is to use pip in a `virtualenv`:
 ```
 $ python -m pip install awscli
 ```
-If you are not installing in a virtualenv, to install globally:
+If you are not installing in a `virtualenv`, to install globally:
 
 ```
 $ sudo python -m pip install awscli
@@ -24,8 +24,6 @@ $ python -m pip install --upgrade awscli
 This will install the aws-cli package as well as all dependencies.
 
 # Configuration:
-Before using the AWS CLI, you need to configure your AWS credentials. You can do this in several ways:
-
 Configuration command
 * Environment variables
 * Shared credentials file
@@ -45,7 +43,7 @@ To use environment variables, do the following:
 $ export AWS_ACCESS_KEY_ID=<access_key>
 $ export AWS_SECRET_ACCESS_KEY=<secret_key>
 ```
-To use the shared credentials file, create an INI formatted file like this:
+To use the shared credentials file, create an INI formatted file:
 
 ```
 [default]
@@ -55,12 +53,12 @@ aws_secret_access_key=MYSECRETKEY
 aws_access_key_id=MYACCESKEY
 aws_secret_access_key=MYSECRETKEY
 ```
-specified above, you need to tell aws-cli where to find it. Do this by setting the appropriate environment variable:
+You need to tell aws-cli where to find it. Do this by setting the appropriate environment variable:
 
 ```
 $ export AWS_SHARED_CREDENTIALS_FILE=/path/to/shared_credentials_file
 ```
-To use a config file, create an INI formatted file like this:
+To use a config file, create an INI formatted file:
 
 ```[default]
 aws_access_key_id=<default access key>
