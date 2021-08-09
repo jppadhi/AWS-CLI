@@ -5,7 +5,7 @@ Install the AWS CLI is to use pip in a `virtualenv`:
 ```
 $ python -m pip install awscli
 ```
-If you are not installing in a `virtualenv`, to install globally:
+If you are not installing in a `virtualenv`, to install globally:-
 
 ```
 $ sudo python -m pip install awscli
